@@ -3,19 +3,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.signal import find_peaks
-from tkinter import Tk, filedialog
+from ui import get_excel_file, ask_sheet_name
 
-# Open file picker dialog
-file_path = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel files", "*.xlsx")])
-
+# Ask for file
+file_path = get_excel_file()
 if not file_path:
     print("No file selected.")
     exit()
 
-sheet_name = "bATAVIA 647031728"
+# Ask for sheet
+excel_file = pd.ExcelFile(file_path)
+sheet_names = excel_file.sheet_names
+selected_sheet = ask_sheet_name(sheet_names)
 
 # Load the column lavels of the DataFrame with Pandas
-df = pd.read_excel(file_path, sheet_name=sheet_name)
+df = pd.read_excel(file_path, sheet_name=selected_sheet)
 df.columns = ['x', 'y']
 
 x_data = df['x'].values
