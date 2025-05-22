@@ -3,9 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.signal import find_peaks
+from tkinter import Tk, filedialog
 
-# Load Excel file
-file_path = "chrom.xlsx"
+# Open file picker dialog
+file_path = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel files", "*.xlsx")])
+
+if not file_path:
+    print("No file selected.")
+    exit()
+
 sheet_name = "bATAVIA 647031728"
 
 # Load the column lavels of the DataFrame with Pandas
