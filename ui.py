@@ -5,7 +5,7 @@ import pandas as pd
 class ExcelApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Chromatographic Peaks Deconvolution")
+        self.title("Chromatographic Peak Deconvolution")
         self.geometry("600x400")
         self.configure(bg="#1e1e2f")
         self.resizable(False, False)
@@ -42,7 +42,7 @@ class ExcelApp(tk.Tk):
         frame = ttk.Frame(self, padding=30)
         ttk.Label(
             frame,
-            text="Deconvolution of Chromatographic Peaks",
+            text="Chromatographic Peak Deconvolution",
             font=('Segoe UI', 16, 'bold'),
             anchor='center',
             wraplength=500
