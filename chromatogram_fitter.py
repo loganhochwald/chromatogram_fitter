@@ -3,18 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.signal import find_peaks
-from ui import get_excel_file, ask_sheet_name
+from ui import get_excel_file_and_sheet
 
-# Ask for file
-file_path = get_excel_file()
-if not file_path:
-    print("No file selected.")
+# Start GUI
+excel_info = get_excel_file_and_sheet()
+if not excel_info:
+    print("No file or sheet selected.")
     exit()
 
-# Ask for sheet
-excel_file = pd.ExcelFile(file_path)
-sheet_names = excel_file.sheet_names
-selected_sheet = ask_sheet_name(sheet_names)
+file_path, selected_sheet = excel_info
 
 # Load the column lavels of the DataFrame with Pandas
 df = pd.read_excel(file_path, sheet_name=selected_sheet)
