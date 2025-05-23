@@ -13,7 +13,7 @@ if not excel_info:
 
 file_path, selected_sheet = excel_info
 
-# Load the column lavels of the DataFrame with Pandas
+# Load the column labels of the DataFrame with Pandas
 df = pd.read_excel(file_path, sheet_name=selected_sheet)
 df.columns = ['x', 'y']
 
@@ -58,11 +58,30 @@ plt.figure(figsize=(10, 6))
 plt.plot(x_data, y_data, label='Original Spectrum', color='black')
 plt.plot(x_data, multi_gaussian(x_data, *optParams), label='Fitted Curve', linestyle='--', color='red')
 
-# Plot each individual Gaussian
+# Plot each individual Gaussian and compute areas
 num_peaks = int(len(optParams) / 3)
+areas = []
 for i in range(num_peaks):
     amp, mean, stdDev = optParams[i*3:i*3+3]
     plt.plot(x_data, gaussian(x_data, amp, mean, stdDev), label=f'Peak {i+1}')
+    area = amp * stdDev * np.sqrt(2 * np.pi)
+    areas.append(area)
+
+# Calculate area percentages
+total_area = sum(areas)
+area_percents = [100 * area / total_area for area in areas]
+
+# Annotate each peak with its area percentage
+for i in range(num_peaks):
+    amp, mean, stdDev = optParams[i*3:i*3+3]
+    percent = area_percents[i]
+    # Find y value at the peak center for annotation at top of peak
+    y_peak = gaussian(mean, amp, mean, stdDev)
+    plt.annotate(f"{percent:.1f}%",
+                 xy=(mean, y_peak),
+                 xytext=(mean, y_peak + 0.05 * max(y_data)),
+                 arrowprops=dict(arrowstyle="->", color='gray'),
+                 ha='center', color='blue', fontsize=12)
 
 plt.xlabel('Time (mins)')
 plt.ylabel('Intensity (a.u.)')
@@ -71,8 +90,3 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
-
-# Print Gaussian parameters if needed
-# for i in range(num_peaks):
-#     amp, mean, stdDev = optParams[i*3:i*3+3]
-#     print(f"Peak {i+1}: Amplitude = {amp:.4f}, Center = {mean:.4f}, Width = {stdDev:.4f}")
