@@ -30,3 +30,4 @@ Install all required dependencies using the provided `requirements.txt` file:
 ```bash
 pip install -r requirements.txt
 ```
+Note: You may need to also run `pip install openpyxl` if an error occurs.
