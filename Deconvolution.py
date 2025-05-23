@@ -64,8 +64,8 @@ for i in range(num_peaks):
     amp, mean, stdDev = optParams[i*3:i*3+3]
     plt.plot(x_data, gaussian(x_data, amp, mean, stdDev), label=f'Peak {i+1}')
 
-plt.xlabel('Time (s)')
-plt.ylabel('Intensity (nA)')
+plt.xlabel('Time (mins)')
+plt.ylabel('Intensity (a.u.)')
 plt.title('Deconvolution of Chromatographic Peaks')
 plt.legend()
 plt.grid(True)
